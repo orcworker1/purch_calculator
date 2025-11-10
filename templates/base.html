@@ -1,10 +1,27 @@
 {% load django_bootstrap5 %}
 {% load static %}
-{% bootstrap_css %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Калькулятор закупки{% endblock %}</title>
+    {% bootstrap_css %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-success navbar-dark">
+        <div class="container-fluid justify-content-center">
+            <a href="{%url 'index'%}" class="btn btn-light me-2">Калькулятор</a>
+            <a href="{% url 'update_sunflower' %}" class="btn btn-outline-light btn-sm">Значения для подсолничника</a>
+            <a href="{% url 'update_raps' %}" class="btn btn-outline-light btn-sm">Значения для рапса</a>
+        </div>
+    </nav>
 
-<nav class="navbar navbar-expand-lg bg-success navbar-dark">
-  <div class="container-fluid justify-content-center">
-    <a href="#" class="btn btn-light me-2">Калькулятор</a>
-    <a href="#" class="btn btn-outline-light btn-sm">Изменить референцные</a>
-  </div>
-</nav>
+    <div class="container mt-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    {% bootstrap_javascript %}
+</body>
+</html>

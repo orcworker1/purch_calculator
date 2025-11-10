@@ -14,7 +14,9 @@ start:
 	uv run python manage.py runserver
 
 migrate:
-	uv run python3 manage.py migrate
+	python manage.py makemigrations
+	python manage.py migrate
+
 
 shell:
 	python manage.py shell
