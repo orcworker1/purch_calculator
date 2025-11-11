@@ -9,9 +9,34 @@ from purch_calculator.removal_rates.models import RemovalForRapeseed,RemovalForS
 class SunflowerForm(forms.ModelForm):
     class Meta:
         model = RemovalForSunflower
-        fields = ["Moisture", "Weed_impurity", "Oil_impurity", "Oil_content", "KCHM", "Protein"]
+        fields = [
+        "moisture_base", "moisture_removal",
+        "weed_impurity_base", "weed_impurity_removal",
+        "oil_impurity_base", "oil_impurity_removal",
+        "oil_content_base", "oil_content_removal",
+        "KCHM_base", "KCHM_removal",
+        "protein_base", "protein_removal"
+    ]
+        widgets = {
+            field: forms.NumberInput(attrs={'step': '1'})
+            for field in fields
+        }
+
+
+
 
 class RapeseedForm(forms.ModelForm):
     class Meta:
         model = RemovalForRapeseed
-        fields = ["Moisture", "Weed_impurity", "Oil_impurity", "Oil_content", "KCHM", "Protein"]
+        fields = [
+        "moisture_base", "moisture_removal",
+        "weed_impurity_base", "weed_impurity_removal",
+        "oil_impurity_base", "oil_impurity_removal",
+        "oil_content_base", "oil_content_removal",
+        "KCHM_base", "KCHM_removal",
+        "protein_base", "protein_removal"
+    ]
+        widgets = {
+            field: forms.NumberInput(attrs={'step': '1'})
+            for field in fields
+        }

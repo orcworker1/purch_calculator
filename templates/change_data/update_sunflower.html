@@ -1,6 +1,99 @@
 {% extends "base.html" %}
 {% load django_bootstrap5 %}
+{% bootstrap_form form show_label=True show_help=True show_errors=True %}
 
 {% block content %}
-<h1>dsf</h1>
+<style>
+  .compact-table {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 0.9rem;
+    border-collapse: collapse;
+  }
+
+  .compact-table th,
+  .compact-table td {
+    padding: 0.3rem 0.6rem;
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  .compact-table input {
+    width: 100%;
+    max-width: 80px;
+    text-align: right;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.9rem;
+  }
+
+  h2 {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: #083617;
+  }
+
+  .btn {
+    font-size: 0.9rem;
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+  }
+
+  .table-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  table thead {
+    background-color: #f8f9fa;
+  }
+</style>
+
+<div class="container mt-4">
+  <h2>Изменить значения — Подсолнечник</h2>
+{% if form.errors %}
+  <div class="alert alert-danger">
+    <strong>Проверьте форму:</strong>
+    <ul class="mb-0">
+      {% for bf in form %}
+        {% for error in bf.errors %}
+          <li>{{ bf.label }}: {{ error }}</li>
+        {% endfor %}
+      {% endfor %}
+
+      {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+  <form method="post" novalidate>
+    {% csrf_token %}
+    <div class="table-container">
+      <table class="table table-bordered table-sm compact-table">
+        <thead>
+          <tr>
+            <th>Показатель</th>
+            <th>Базовое значение, %</th>
+            <th>Коэффициент съема, руб/1%</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Масличность</td><td>{{ form.oil_content_base }}</td><td>{{ form.oil_content_removal }}</td></tr>
+          <tr><td>Сорность</td><td>{{ form.weed_impurity_base }}</td><td>{{ form.weed_impurity_removal }}</td></tr>
+          <tr><td>Протеин</td><td>{{ form.protein_base }}</td><td>{{ form.protein_removal }}</td></tr>
+          <tr><td>Масличная примесь</td><td>{{ form.oil_impurity_base }}</td><td>{{ form.oil_impurity_removal }}</td></tr>
+          <tr><td>КЧМ</td><td>{{ form.KCHM_base }}</td><td>{{ form.KCHM_removal }}</td></tr>
+          <tr><td>Влажность</td><td>{{ form.moisture_base }}</td><td>{{ form.moisture_removal }}</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="text-center mt-3">
+      <button type="submit" class="btn btn-primary btn-sm">Сохранить</button>
+      <a href="{% url 'index' %}" class="btn btn-outline-secondary btn-sm">Отмена</a>
+    </div>
+  </form>
+</div>
 {% endblock %}

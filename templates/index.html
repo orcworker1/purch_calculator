@@ -19,7 +19,7 @@ caption {
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-6">
-      {% for sunflower in sunflower_list %}
+      {% if sunflower %}
       <table class="table table-bordered table-striped">
         <caption>Подсолнечник</caption>
         <thead class="table-light">
@@ -30,18 +30,19 @@ caption {
           </tr>
         </thead>
         <tbody>
-          <tr><th>Масличность</th><td>{{sunflower.weed_impurity}}</td><td>test2</td></tr>
-          <tr><th>Сорность</th><td>{{sunflower.weed_impurity}}</td><td>test2</td></tr>
-          <tr><th>Протеин</th><td>{{sunflower.protein}}</td><td>test2</td></tr>
-          <tr><th>Масличная примесь</th><td>{{sunflower.oil_impurity}}</td><td>test2</td></tr>
-          <tr><th>КЧМ</th><td>{{sunflower.KCHM}}</td><td>test2</td></tr>
-          <tr><th>Влажность</th><td>{{sunflower.oil_content}}</td><td>test2</td></tr>
+          <tr><th>Масличность</th><td>{{sunflower.oil_content_base}}</td><td>{{sunflower.oil_content_removal}}</td></tr>
+          <tr><th>Сорность</th><td>{{sunflower.weed_impurity_base}}</td><td>{{sunflower.weed_impurity_removal}}</td></tr>
+          <tr><th>Протеин</th><td>{{sunflower.protein_base}}</td><td>{{sunflower.protein_removal}}</td></tr>
+          <tr><th>Масличная примесь</th><td>{{sunflower.oil_impurity_base}}</td><td>{{sunflower.oil_impurity_removal}}</td></tr>
+          <tr><th>КЧМ</th><td>{{sunflower.KCHM_base}}</td><td>{{sunflower.KCHM_removal}}</td></tr>
+          <tr><th>Влажность</th><td>{{sunflower.moisture_base}}</td><td>{{sunflower.moisture_removal}}</td></tr>
         </tbody>
       </table>
-      {% endfor %}
+      {% endif %}
  <a href="{% url 'update_sunflower' %}" class="btn btn-success">Изменить значения для подсолничника</a>
     </div>
     <div class="col-md-6">
+      {% if raps %}
       <table class="table table-bordered table-striped">
         <caption>Рапс</caption>
         <thead class="table-light">
@@ -52,18 +53,25 @@ caption {
           </tr>
         </thead>
         <tbody>
-          <tr><th>Масличность</th><td>111</td><td>test</td></tr>
-          <tr><th>Сорность</th><td>222</td><td>testB</td></tr>
-          <tr><th>Протеин</th><td>333</td><td>testC</td></tr>
-          <tr><th>Масличная примесь</th><td>444</td><td>testD</td></tr>
-          <tr><th>КЧМ</th><td>555</td><td>testE</td></tr>
-          <tr><th>Влажность</th><td>test2</td><td>test2</td></tr>
+          <tr><th>Масличность</th><td>{{raps.oil_content_base}}</td><td>{{raps.oil_content_removal}}</td></tr>
+          <tr><th>Сорность</th><td>{{raps.weed_impurity_base}}</td><td>{{raps.weed_impurity_removal}}</td></tr>
+          <tr><th>Протеин</th><td>{{raps.protein_base}}</td><td>{{raps.protein_removal}}</td></tr>
+          <tr><th>Масличная примесь</th><td>{{raps.oil_impurity_base}}</td><td>{{raps.oil_impurity_removal}}</td></tr>
+          <tr><th>КЧМ</th><td>{{raps.KCHM_base}}</td><td>{{raps.KCHM_removal}}</td></tr>
+          <tr><th>Влажность</th><td>{{raps.moisture_base}}</td><td>{{raps.moisture_removal}}</td></tr>
         </tbody>
       </table>
+       {% endif %}
        <a href="{% url 'update_raps' %}" class="btn btn-success">Изменить значения для рапса</a>
     </div>
   </div>
-
 </div>
+
+<h1 class="text-left mb-4">
+  Входные данные по партии
+</h1>
+
+
+
 
 {% endblock %}

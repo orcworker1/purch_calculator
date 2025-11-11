@@ -9,6 +9,7 @@ from django.views.generic import (
 
 from purch_calculator.removal_rates.models import RemovalForSunflower
 from purch_calculator.removal_rates.models import RemovalForRapeseed
+from .forms import SunflowerForm , RapeseedForm
 
 class ViewRates(ListView):
     model = RemovalForSunflower
@@ -17,12 +18,17 @@ class ViewRates(ListView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx["rapeseed_list"] = RemovalForRapeseed.objects.all().order_by("id")
+
+        sunflower, _ = RemovalForSunflower.objects.get_or_create(pk=1)
+        rapeseed, _ = RemovalForRapeseed.objects.get_or_create(pk=1)
+
+        ctx["sunflower"] = sunflower
+        ctx["raps"] = rapeseed
         return ctx
 
 class UpdateSunflower(UpdateView):
     model = RemovalForSunflower
-    fields = ["Moisture", "Weed_impurity", "Oil_impurity", "Oil_content", "KCHM", "Protein"]
+    form_class = SunflowerForm
     success_url = reverse_lazy('index')
     template_name = 'change_data/update_sunflower.html'
 
@@ -33,12 +39,11 @@ class UpdateSunflower(UpdateView):
 
 class UpdateRaps(UpdateView):
     model = RemovalForRapeseed
-    fields = ["Moisture", "Weed_impurity", "Oil_impurity", "Oil_content", "KCHM", "Protein"]
+    form_class = RapeseedForm
     success_url = reverse_lazy('index')
     template_name = 'change_data/update_raps.html'
 
     def get_object(self, queryset=None):
-        obj, _ = RemovalForSunflower.objects.get_or_create(pk=1)
+        obj, _ = RemovalForRapeseed.objects.get_or_create(pk=1)
         return obj
-
 # Create your views here.
