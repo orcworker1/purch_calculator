@@ -8,8 +8,8 @@ from django.views.generic import (
 )
 
 from purch_calculator.removal_rates.models import RemovalForSunflower
-from purch_calculator.removal_rates.models import RemovalForRapeseed
-from .forms import SunflowerForm , RapeseedForm
+from purch_calculator.removal_rates.models import RemovalForRapeseed , RawMaterialBatch
+from .forms import SunflowerForm , RapeseedForm , SunflowerBatchForm
 
 class ViewRates(ListView):
     model = RemovalForSunflower
@@ -21,9 +21,10 @@ class ViewRates(ListView):
 
         sunflower, _ = RemovalForSunflower.objects.get_or_create(pk=1)
         rapeseed, _ = RemovalForRapeseed.objects.get_or_create(pk=1)
-
+        batch, _ = RawMaterialBatch.objects.get_or_create(pk=1)
         ctx["sunflower"] = sunflower
         ctx["raps"] = rapeseed
+        ctx["batch"] = batch
         return ctx
 
 class UpdateSunflower(UpdateView):
@@ -46,4 +47,12 @@ class UpdateRaps(UpdateView):
     def get_object(self, queryset=None):
         obj, _ = RemovalForRapeseed.objects.get_or_create(pk=1)
         return obj
+
+
+class CalculateSunflowerBatch(ListView):
+    model = RawMaterialBatch
+    form_class = SunflowerBatchForm
+    template_name = 'index.html'
+
+
 # Create your views here.

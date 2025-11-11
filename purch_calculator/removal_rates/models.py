@@ -143,4 +143,63 @@ class RemovalForRapeseed(models.Model):
         return f"Removal #{self.id}"
 
 
+class RawMaterialBatch(models.Model):
+    STATUS_CHOICES = [
+        ('raps', 'Рапс'),
+        ('sunflower', 'Подсолнечник')]
+    purchase_price = models.DecimalField(
+        _("Закупочная ценаб руб/кг"),
+        max_digits=10, decimal_places=2, default=0,
+        validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))]
+    )
+    weight = models.DecimalField(
+        _("Вес партии, тонн"),
+        max_digits=10, decimal_places=2,default=0,
+        validators=[MinValueValidator(0, message=_("Вес не может быть отрицательным."))]
+    )
+    moisture_actual = models.DecimalField(
+        _("Влажность факт, %"),
+        max_digits=5, decimal_places=2,default=0,
+        validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))]
+    )
+    weed_impurity_actual = models.DecimalField(
+        _("Сорность факт, %"),
+        max_digits=5, decimal_places=2,default=0,
+        validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))]
+    )
+
+    oil_impurity_actual = models.DecimalField(
+        _("Масличная примесь факт, %"),
+        max_digits=5, decimal_places=2,default=0,
+        validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))]
+    )
+
+    oil_content_actual = models.DecimalField(
+        _("Масличность факт, %"),
+        max_digits=5, decimal_places=2,default=0,
+        validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))]
+    )
+
+    KCHM_actual = models.DecimalField(
+        _("КЧМ факт, %"),
+        max_digits=5, decimal_places=2,default=0,
+        validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))]
+    )
+
+    protein_actual = models.DecimalField(
+        _("Протеин факт, %"),
+        max_digits=5, decimal_places=2,default=0,
+        validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))]
+    )
+    culture = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='Рапс',
+    )
+    def __str__(self):
+        return f"Removal #{self.id}"
+
+
+
+
 # Create your models here.

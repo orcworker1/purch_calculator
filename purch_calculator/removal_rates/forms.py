@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
 
-from purch_calculator.removal_rates.models import RemovalForRapeseed,RemovalForSunflower
+from purch_calculator.removal_rates.models import RemovalForRapeseed,RemovalForSunflower, RawMaterialBatch
 
 
 
@@ -39,4 +39,57 @@ class RapeseedForm(forms.ModelForm):
         widgets = {
             field: forms.NumberInput(attrs={'step': '1'})
             for field in fields
+        }
+
+
+class SunflowerBatchForm(forms.ModelForm):
+    class Meta:
+        model = RawMaterialBatch
+        fields = [
+            'purchase_price', 'weight',
+            'moisture_actual', 'weed_impurity_actual',
+            'oil_impurity_actual', 'oil_content_actual',
+            'KCHM_actual', 'protein_actual'
+        ]
+        widgets = {
+            'purchase_price': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '0.01',
+                'placeholder': 'Введите базовую цену'
+            }),
+            'weight': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '0.01',
+                'placeholder': 'Введите вес в тоннах'
+            }),
+            'moisture_actual': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '0.01',
+                'placeholder': '%'
+            }),
+            'weed_impurity_actual': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '0.01',
+                'placeholder': '%'
+            }),
+            'oil_impurity_actual': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '0.01',
+                'placeholder': '%'
+            }),
+            'oil_content_actual': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '0.01',
+                'placeholder': '%'
+            }),
+            'KCHM_actual': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '0.01',
+                'placeholder': '%'
+            }),
+            'protein_actual': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '0.01',
+                'placeholder': '%'
+            }),
         }
