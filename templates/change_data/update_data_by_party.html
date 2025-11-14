@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+<style>
+  .form-card {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #0f5132;
+  }
+
+  .table-compact thead {
+    background-color: #f8f9fa;
+  }
+
+  .table-compact th,
+  .table-compact td {
+    padding: 0.6rem 0.8rem;
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  .table-compact input {
+    text-align: right;
+  }
+</style>
+
+<div class="container mt-4 mb-5 form-card">
+  <div class="card shadow-sm border-success">
+    <div class="card-header bg-success bg-opacity-75 text-white text-center">
+      <h2 class="section-title mb-0 text-white">Изменить входные данные по партии</h2>
+    </div>
+    <div class="card-body p-4">
+
+      {% if form.errors %}
+        <div class="alert alert-danger">
+          <strong>Проверьте форму:</strong>
+          <ul class="mb-0">
+            {% for bf in form %}
+              {% for error in bf.errors %}
+                <li>{{ bf.label }}: {{ error }}</li>
+              {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      <form method="post" novalidate>
+        {% csrf_token %}
+
+        <div class="row g-4">
+          <div class="col-lg-6">
+            <div class="card h-100 border-warning">
+              <div class="card-header bg-warning bg-opacity-25 text-center fw-semibold">
+                Общие параметры партии
+              </div>
+              <div class="card-body p-0">
+                <table class="table table-compact mb-0">
+                  <thead>
+                    <tr>
+                      <th>Показатель</th>
+                      <th>Значение</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row" class="text-start">Закупочная цена, руб/т</th>
+                      <td>{{ form.purchase_price }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="text-start">Масса партии, т</th>
+                      <td>{{ form.weight_actual }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="text-start">Культура партии</th>
+                      <td>{{ form.culture }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="card h-100 border-info">
+              <div class="card-header bg-info bg-opacity-25 text-center fw-semibold">
+                Показатели качества, %
+              </div>
+              <div class="card-body p-0">
+                <table class="table table-compact mb-0">
+                  <thead>
+                    <tr>
+                      <th>Показатель</th>
+                      <th>Значение</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row" class="text-start">Масличность</th>
+                      <td>{{ form.oil_content_actual }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="text-start">Сорность</th>
+                      <td>{{ form.weed_impurity_actual }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="text-start">Протеин</th>
+                      <td>{{ form.protein_actual }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="text-start">Масличная примесь</th>
+                      <td>{{ form.oil_impurity_actual }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="text-start">КЧМ</th>
+                      <td>{{ form.KCHM_actual }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="text-start">Влажность</th>
+                      <td>{{ form.moisture_actual }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-4">
+          <button type="submit" class="btn btn-success px-4 me-2">Сохранить</button>
+          <a href="{% url 'index' %}" class="btn btn-outline-secondary px-4">Отмена</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -46,7 +46,7 @@ class SunflowerBatchForm(forms.ModelForm):
     class Meta:
         model = RawMaterialBatch
         fields = [
-            'purchase_price', 'weight',
+            'purchase_price', 'weight_actual', 'culture',
             'moisture_actual', 'weed_impurity_actual',
             'oil_impurity_actual', 'oil_content_actual',
             'KCHM_actual', 'protein_actual'
@@ -54,42 +54,47 @@ class SunflowerBatchForm(forms.ModelForm):
         widgets = {
             'purchase_price': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'step': '0.01',
+                'step': '1,00',
                 'placeholder': 'Введите базовую цену'
             }),
-            'weight': forms.NumberInput(attrs={
+            'weight_actual': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'step': '0.01',
+                'step': '1,00',
                 'placeholder': 'Введите вес в тоннах'
             }),
             'moisture_actual': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'step': '0.01',
+                'step': '1,00',
                 'placeholder': '%'
             }),
             'weed_impurity_actual': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'step': '0.01',
+                'step': '1,00',
                 'placeholder': '%'
             }),
             'oil_impurity_actual': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'step': '0.01',
+                'step': '1,00',
                 'placeholder': '%'
             }),
             'oil_content_actual': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'step': '0.01',
+                'step': '1,00',
                 'placeholder': '%'
             }),
             'KCHM_actual': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'step': '0.01',
+                'step': '1,00',
                 'placeholder': '%'
             }),
             'protein_actual': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'step': '0.01',
+                'step': '1,00',
                 'placeholder': '%'
             }),
+            'culture': forms.Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'Выбери культуру'
+            }),
+
         }

@@ -2,125 +2,235 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
+
 <style>
-caption {
-  caption-side: top;
-  font-weight: bold;
-  text-align: center;
-  font-size: 1.2rem;
-  color: #083617;
-}
+  .section-title {
+    color: #0f5132;
+    font-weight: 600;
+  }
+
+  .table caption {
+    caption-side: top;
+    font-weight: 600;
+    color: #0f5132;
+  }
+
+  .card-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+  }
 </style>
 
-<h1 class="text-center mb-4">
-  Финансовая модель для закупки подсолничника
-</h1>
+<section class="container mt-4">
+  <h1 class="text-center mb-4 section-title">
+    Финансовая модель для закупки масличных
+  </h1>
 
-<div class="container">
-  <div class="row justify-content-center">
+  <div class="row g-4">
     <div class="col-md-6">
-      {% if sunflower %}
-      <table class="table table-bordered table-striped">
-        <caption>Подсолнечник</caption>
-        <thead class="table-light">
-          <tr>
-            <th>Показатели</th>
-            <th>Базовое значение, %</th>
-            <th>Коэффициент съема, руб/ за 1%</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><th>Масличность</th><td>{{sunflower.oil_content_base}}</td><td>{{sunflower.oil_content_removal}}</td></tr>
-          <tr><th>Сорность</th><td>{{sunflower.weed_impurity_base}}</td><td>{{sunflower.weed_impurity_removal}}</td></tr>
-          <tr><th>Протеин</th><td>{{sunflower.protein_base}}</td><td>{{sunflower.protein_removal}}</td></tr>
-          <tr><th>Масличная примесь</th><td>{{sunflower.oil_impurity_base}}</td><td>{{sunflower.oil_impurity_removal}}</td></tr>
-          <tr><th>КЧМ</th><td>{{sunflower.KCHM_base}}</td><td>{{sunflower.KCHM_removal}}</td></tr>
-          <tr><th>Влажность</th><td>{{sunflower.moisture_base}}</td><td>{{sunflower.moisture_removal}}</td></tr>
-        </tbody>
-      </table>
-      {% endif %}
- <a href="{% url 'update_sunflower' %}" class="btn btn-success">Изменить значения для подсолничника</a>
+      <div class="card shadow-sm h-100 border-success">
+        <div class="card-header bg-success bg-opacity-25 text-center fw-semibold">
+          Подсолнечник
+        </div>
+        <div class="card-body p-0">
+          {% if sunflower %}
+          <table class="table table-striped table-bordered mb-0">
+            <thead class="table-light">
+              <tr class="text-center">
+                <th>Показатель</th>
+                <th>Базовое значение, %</th>
+                <th>Коэффициент съёма, руб/1%</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row" class="text-start">Масличность</th>
+                <td>{{ sunflower.oil_content_base }}</td>
+                <td>{{ sunflower.oil_content_removal }}</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-start">Сорность</th>
+                <td>{{ sunflower.weed_impurity_base }}</td>
+                <td>{{ sunflower.weed_impurity_removal }}</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-start">Протеин</th>
+                <td>{{ sunflower.protein_base }}</td>
+                <td>{{ sunflower.protein_removal }}</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-start">Масличная примесь</th>
+                <td>{{ sunflower.oil_impurity_base }}</td>
+                <td>{{ sunflower.oil_impurity_removal }}</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-start">КЧМ</th>
+                <td>{{ sunflower.KCHM_base }}</td>
+                <td>{{ sunflower.KCHM_removal }}</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-start">Влажность</th>
+                <td>{{ sunflower.moisture_base }}</td>
+                <td>{{ sunflower.moisture_removal }}</td>
+              </tr>
+            </tbody>
+          </table>
+          {% else %}
+          <div class="p-4 text-center text-muted">
+            Данные по подсолнечнику пока не заданы.
+          </div>
+          {% endif %}
+        </div>
+        <div class="card-footer bg-white card-action">
+          <span class="text-muted small">Настройки подсолнечника</span>
+          <a href="{% url 'update_sunflower' %}" class="btn btn-success btn-sm">Изменить</a>
+        </div>
+      </div>
     </div>
+
     <div class="col-md-6">
-      {% if raps %}
-      <table class="table table-bordered table-striped">
-        <caption>Рапс</caption>
-        <thead class="table-light">
-          <tr>
-            <th>Показатели</th>
-            <th>Базовое значение, %</th>
-            <th>Коэффициент съема, руб/ за 1%</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><th>Масличность</th><td>{{raps.oil_content_base}}</td><td>{{raps.oil_content_removal}}</td></tr>
-          <tr><th>Сорность</th><td>{{raps.weed_impurity_base}}</td><td>{{raps.weed_impurity_removal}}</td></tr>
-          <tr><th>Протеин</th><td>{{raps.protein_base}}</td><td>{{raps.protein_removal}}</td></tr>
-          <tr><th>Масличная примесь</th><td>{{raps.oil_impurity_base}}</td><td>{{raps.oil_impurity_removal}}</td></tr>
-          <tr><th>КЧМ</th><td>{{raps.KCHM_base}}</td><td>{{raps.KCHM_removal}}</td></tr>
-          <tr><th>Влажность</th><td>{{raps.moisture_base}}</td><td>{{raps.moisture_removal}}</td></tr>
-        </tbody>
-      </table>
-       {% endif %}
-       <a href="{% url 'update_raps' %}" class="btn btn-success">Изменить значения для рапса</a>
+      <div class="card shadow-sm h-100 border-warning">
+        <div class="card-header bg-warning bg-opacity-25 text-center fw-semibold">
+          Рапс
+        </div>
+        <div class="card-body p-0">
+          {% if raps %}
+          <table class="table table-striped table-bordered mb-0">
+            <thead class="table-light">
+              <tr class="text-center">
+                <th>Показатель</th>
+                <th>Базовое значение, %</th>
+                <th>Коэффициент съёма, руб/1%</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row" class="text-start">Масличность</th>
+                <td>{{ raps.oil_content_base }}</td>
+                <td>{{ raps.oil_content_removal }}</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-start">Сорность</th>
+                <td>{{ raps.weed_impurity_base }}</td>
+                <td>{{ raps.weed_impurity_removal }}</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-start">Протеин</th>
+                <td>{{ raps.protein_base }}</td>
+                <td>{{ raps.protein_removal }}</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-start">Масличная примесь</th>
+                <td>{{ raps.oil_impurity_base }}</td>
+                <td>{{ raps.oil_impurity_removal }}</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-start">КЧМ</th>
+                <td>{{ raps.KCHM_base }}</td>
+                <td>{{ raps.KCHM_removal }}</td>
+              </tr>
+              <tr>
+                <th scope="row" class="text-start">Влажность</th>
+                <td>{{ raps.moisture_base }}</td>
+                <td>{{ raps.moisture_removal }}</td>
+              </tr>
+            </tbody>
+          </table>
+          {% else %}
+          <div class="p-4 text-center text-muted">
+            Данные по рапсу пока не заданы.
+          </div>
+          {% endif %}
+        </div>
+        <div class="card-footer bg-white card-action">
+          <span class="text-muted small">Настройки рапса</span>
+          <a href="{% url 'update_raps' %}" class="btn btn-warning btn-sm text-white">Изменить</a>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-
-<h1 class="text-left mb-4">
-  Входные данные по партии
-</h1>
+</section>
 
 {% if batch %}
-<div class="container mt-4">
+<section class="container mt-5 mb-5">
   <div class="card shadow-sm border-success">
-    <div class="card-header bg-success text-white text-center fw-bold">
-
+    <div class="card-header bg-success bg-opacity-75 text-white text-center fw-semibold">
+      Входные данные по текущей партии
     </div>
     <div class="card-body">
-      <table class="table table-bordered align-middle mb-0">
-        <caption>Данные по партии</caption>
-        <thead class="table-light">
-          <tr class="text-center">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card h-100 border-0">
+            <div class="card-header bg-light fw-semibold text-center">
+              Общая информация
+            </div>
+            <div class="card-body p-0">
+              <table class="table table-bordered mb-0">
+                <tbody>
+                  <tr>
+                    <th scope="row" class="text-start">Закупочная цена, руб/т</th>
+                    <td class="text-center">{{ batch.purchase_price }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Масса партии, т</th>
+                    <td class="text-center">{{ batch.weight_actual }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Культура партии</th>
+                    <td class="text-center">{{ batch.get_culture_display }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
 
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">Закупочная цена, руб/т</th>
-            <td class="text-center">{{ batch.purchase_price }}</td>
-          </tr>
-          <tr>
-            <th scope="row">Масса партии, т</th>
-            <td class="text-center">{{ batch.weight }}</td>
-          </tr>
-        <tr>
-            <th scope="row">Культура партии</th>
-            <td class="text-center">{{ batch.culture }}</td>
-          </tr>
-        </tbody>
-      </table>
-       <table class="table table-bordered align-middle mb-0">
-        <caption>Качество</caption>
-         <thead class="table-light">
-         <tr class="text-center">
-            <th>Показатель</th>
-            <th>Значение, %</th>
-          </tr>
-         </thead>
-         <tbody>
-          <tr><th>Масличность</th><td>123</td>
-          <tr><th>Сорность</th><td>123</td>
-          <tr><th>Протеин</th><td>123</td>
-          <tr><th>Масличная примесь</th><td>123</td>
-          <tr><th>КЧМ</th><td>123</td>
-          <tr><th>Влажность</th><td>{123</td>
-         </tbody>
-      </table>
+        <div class="col-lg-6">
+          <div class="card h-100 border-0">
+            <div class="card-header bg-light fw-semibold text-center">
+              Показатели качества, %
+            </div>
+            <div class="card-body p-0">
+              <table class="table table-bordered mb-0">
+                <tbody>
+                  <tr>
+                    <th scope="row" class="text-start">Масличность</th>
+                    <td class="text-center">{{ batch.oil_content_actual }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Сорность</th>
+                    <td class="text-center">{{ batch.weed_impurity_actual }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Протеин</th>
+                    <td class="text-center">{{ batch.protein_actual }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Масличная примесь</th>
+                    <td class="text-center">{{ batch.oil_impurity_actual }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">КЧМ</th>
+                    <td class="text-center">{{ batch.KCHM_actual }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Влажность</th>
+                    <td class="text-center">{{ batch.moisture_actual }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer bg-white text-center">
+      <a href="{% url 'update_by_party' %}" class="btn btn-success px-4">Изменить входные данные</a>
     </div>
   </div>
-</div>
-
+</section>
 {% endif %}
 
 {% endblock %}

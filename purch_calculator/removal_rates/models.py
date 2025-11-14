@@ -144,54 +144,54 @@ class RemovalForRapeseed(models.Model):
 
 
 class RawMaterialBatch(models.Model):
-    STATUS_CHOICES = [
+    STATUS_CHOICES = [ # Выбор культуры
         ('raps', 'Рапс'),
         ('sunflower', 'Подсолнечник')]
-    purchase_price = models.DecimalField(
+    purchase_price = models.DecimalField( # Закупочная цена
         _("Закупочная ценаб руб/кг"),
         max_digits=10, decimal_places=2, default=0,
         validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))]
     )
-    weight = models.DecimalField(
+    weight_actual = models.DecimalField( #Вес
         _("Вес партии, тонн"),
         max_digits=10, decimal_places=2,default=0,
         validators=[MinValueValidator(0, message=_("Вес не может быть отрицательным."))]
     )
-    moisture_actual = models.DecimalField(
+    moisture_actual = models.DecimalField( # Влажность
         _("Влажность факт, %"),
         max_digits=5, decimal_places=2,default=0,
         validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))]
     )
-    weed_impurity_actual = models.DecimalField(
+    weed_impurity_actual = models.DecimalField( # Сорность
         _("Сорность факт, %"),
         max_digits=5, decimal_places=2,default=0,
         validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))]
     )
 
-    oil_impurity_actual = models.DecimalField(
+    oil_impurity_actual = models.DecimalField( # Масличная примесь
         _("Масличная примесь факт, %"),
         max_digits=5, decimal_places=2,default=0,
         validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))]
     )
 
-    oil_content_actual = models.DecimalField(
+    oil_content_actual = models.DecimalField( # Масляничность
         _("Масличность факт, %"),
         max_digits=5, decimal_places=2,default=0,
         validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))]
     )
 
-    KCHM_actual = models.DecimalField(
+    KCHM_actual = models.DecimalField( # КМЧ
         _("КЧМ факт, %"),
         max_digits=5, decimal_places=2,default=0,
         validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))]
     )
 
-    protein_actual = models.DecimalField(
+    protein_actual = models.DecimalField( # Протеин
         _("Протеин факт, %"),
         max_digits=5, decimal_places=2,default=0,
         validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))]
     )
-    culture = models.CharField(
+    culture = models.CharField( # культура( Подсолнечник или Рапс)
         max_length=20,
         choices=STATUS_CHOICES,
         default='Рапс',
