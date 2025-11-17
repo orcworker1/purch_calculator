@@ -67,13 +67,15 @@ class UpdateDataByParty(UpdateView):
 
 
 class ExportCSV(View):
-
     def get(self, request, *args, **kwargs):
-        qs = result
+        one = RemovalForRapeseed.objects.all().values()
+        qs = RemovalForSunflower.objects.all().values()
         df = pd.DataFrame(list(qs))
+        one = pd.DataFrame(list(one))
         response = HttpResponse(content_type="text/csv")
         response['Content-Disposition'] = 'attachment; filename="purch_result.csv"'
         df.to_csv(path_or_buf=response, index=False, encoding="utf-8")
+        one.to_csv(path_or_buf=response, index=False, encoding="utf-8")
         return response
 
 
