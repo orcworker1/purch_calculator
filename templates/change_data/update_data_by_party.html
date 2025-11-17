@@ -59,10 +59,10 @@
         {% csrf_token %}
 
         <div class="row g-4">
-          <div class="col-lg-6">
+          <div class="col-lg-4">
             <div class="card h-100 border-warning">
               <div class="card-header bg-warning bg-opacity-25 text-center fw-semibold">
-                Общие параметры партии
+                Основные параметры
               </div>
               <div class="card-body p-0">
                 <table class="table table-compact mb-0">
@@ -85,15 +85,71 @@
                       <th scope="row" class="text-start">Культура партии</th>
                       <td>{{ form.culture }}</td>
                     </tr>
+                    <tr>
+                      <th scope="row" class="text-start">Начало приемки</th>
+                      <td>{{ form.receipt_start_date }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="text-start">Окончание приемки</th>
+                      <td>{{ form.receipt_end_date }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="text-start">Отсрочка, дней</th>
+                      <td>{{ form.delay_days }}</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
 
-          <div class="col-lg-6">
+          <div class="col-lg-4">
             <div class="card h-100 border-info">
               <div class="card-header bg-info bg-opacity-25 text-center fw-semibold">
+                Условия закупки
+              </div>
+              <div class="card-body p-0">
+                <table class="table table-compact mb-0">
+                  <thead>
+                    <tr>
+                      <th>Показатель</th>
+                      <th>Значение</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row" class="text-start">Вид закупки</th>
+                      <td>{{ form.purchase_type }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="text-start">Тип контракта</th>
+                      <td>{{ form.contract_type }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="text-start">Соглашение</th>
+                      <td>{{ form.agreement_type }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="text-start">Целевой завод</th>
+                      <td>{{ form.target_factory }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="text-start">Тип ТС</th>
+                      <td>{{ form.transport_type }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="text-start">Тип партнера</th>
+                      <td>{{ form.partner_type }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="card h-100 border-success">
+              <div class="card-header bg-success bg-opacity-25 text-center fw-semibold">
                 Показатели качества, %
               </div>
               <div class="card-body p-0">

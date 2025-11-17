@@ -49,7 +49,9 @@ class SunflowerBatchForm(forms.ModelForm):
             'purchase_price', 'weight_actual', 'culture',
             'moisture_actual', 'weed_impurity_actual',
             'oil_impurity_actual', 'oil_content_actual',
-            'KCHM_actual', 'protein_actual'
+            'KCHM_actual', 'protein_actual','receipt_start_date',
+            'receipt_end_date','purchase_type','target_factory','partner_type','contract_type','transport_type',
+            'agreement_type','delay_days',
         ]
         widgets = {
             'purchase_price': forms.NumberInput(attrs={
@@ -96,5 +98,46 @@ class SunflowerBatchForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Выбери культуру'
             }),
+            'receipt_start_date':forms.DateInput(attrs={
+                'type': 'date',
+                'class': 'form-control',
+                'placeholder': 'Выбери Дату'
+            }),
+            'receipt_end_date': forms.DateInput(attrs={
+                'type': 'date',
+                'class': 'form-control',
+                'placeholder': 'Выбери Дату'
+            }),
+            'purchase_type': forms.Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'Вид закупки'
+            }),
+            'target_factory':forms.Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'Выбери завод'
+            }),
+            'partner_type':forms.Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'Выбери партнера'
+            }),
+            'contract_type':forms.Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'Выбери контракт'
+            }),
+            'transport_type':forms.Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'Выбери транспорт'
+            }),
+            'agreement_type':forms.Select(attrs={
+                'class': 'form-control',
+                'placeholder': 'Выбери Соглашение'
+            }),
+            'delay_days':forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '1,00',
+                'placeholder': 'Колличество дней отсрочки'
+
+            })
+
 
         }

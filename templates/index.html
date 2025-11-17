@@ -161,16 +161,16 @@
     </div>
     <div class="card-body">
       <div class="row g-4">
-        <div class="col-lg-6">
+        <div class="col-lg-4">
           <div class="card h-100 border-0">
             <div class="card-header bg-light fw-semibold text-center">
-              Общая информация
+              Основные параметры
             </div>
             <div class="card-body p-0">
               <table class="table table-bordered mb-0">
                 <tbody>
                   <tr>
-                    <th scope="row" class="text-start">Закупочная цена, руб/т</th>
+                    <th scope="row" class="text-start">Закупочная цена, руб/кг</th>
                     <td class="text-center">{{ batch.purchase_price }}</td>
                   </tr>
                   <tr>
@@ -181,13 +181,63 @@
                     <th scope="row" class="text-start">Культура партии</th>
                     <td class="text-center">{{ batch.get_culture_display }}</td>
                   </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Начало приемки</th>
+                    <td class="text-center">{{ batch.receipt_start_date|default:"—" }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Окончание приемки</th>
+                    <td class="text-center">{{ batch.receipt_end_date|default:"—" }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Отсрочка, дней</th>
+                    <td class="text-center">{{ batch.delay_days }}</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
           </div>
         </div>
 
-        <div class="col-lg-6">
+        <div class="col-lg-4">
+          <div class="card h-100 border-0">
+            <div class="card-header bg-light fw-semibold text-center">
+              Условия закупки
+            </div>
+            <div class="card-body p-0">
+              <table class="table table-bordered mb-0">
+                <tbody>
+                  <tr>
+                    <th scope="row" class="text-start">Вид закупки</th>
+                    <td class="text-center">{{ batch.get_purchase_type_display }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Тип контракта</th>
+                    <td class="text-center">{{ batch.get_contract_type_display }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Соглашение</th>
+                    <td class="text-center">{{ batch.get_agreement_type_display }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Целевой завод</th>
+                    <td class="text-center">{{ batch.get_target_factory_display }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Тип ТС</th>
+                    <td class="text-center">{{ batch.get_transport_type_display }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Тип партнера</th>
+                    <td class="text-center">{{ batch.get_partner_type_display }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
           <div class="card h-100 border-0">
             <div class="card-header bg-light fw-semibold text-center">
               Показатели качества, %

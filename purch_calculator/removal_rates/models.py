@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.utils.translation import gettext_lazy as _
-
+from django.core.validators import MaxValueValidator
 class RemovalForSunflower(models.Model):
     moisture_base = models.DecimalField(
         _("Влажность (базовое значение, %)"),
@@ -144,9 +144,44 @@ class RemovalForRapeseed(models.Model):
 
 
 class RawMaterialBatch(models.Model):
-    STATUS_CHOICES = [ # Выбор культуры
+    CULTURE_CHOICES = [ # Выбор культуры
         ('raps', 'Рапс'),
         ('sunflower', 'Подсолнечник')]
+
+    PURCHASE_TYPE_CHOICES = [
+        ('DirectSupply', 'Прямая поставка'),
+        ('ElevatorSupply', 'Поставка на элеватор'),
+        ('InventoryF13', 'Перепись  Ф - 13'),
+    ]
+    FACTORY_CHOICES = [
+        ('AMPZ', 'АМПЗ'),
+        ('DMEZ', 'ЭМЭЗ'),
+        ('EMEZ', 'ДМЭЗ'),
+        ('VHEMEZ', 'ВХМЭЗ'),
+        ('BKMEZ', 'БКМЭЗ'),
+        ('BLMEZ', 'БЛМЭЗ'),
+        ('OMEZ', 'ОМЭЗ'),
+    ]
+    PARTNER_TYPE_CHOICES = [
+        ('Trader', 'Трейдер'),
+        ('Farm', 'СХТП'),
+        ('Agroholding', 'Агрохолдинг'),
+        ]
+    CONTRACT_TYPE_CHOICES = [
+        ('FZV', 'ФЗВ'),
+        ('ZCHT', 'ЗЧТ'),
+        ('ZCHC', 'ЗЧЦ'),
+    ]
+    TRANSPORT_CHOICES = [
+        ('Auto', 'Авто'),
+        ('Railway', 'ЖД'),
+    ]
+
+    AGREEMENT_CHOICES = [
+        ('Prepayment', 'Предоплата'),
+        ('Postpayment', 'Постоплата'),
+    ]
+
     purchase_price = models.DecimalField( # Закупочная цена
         _("Закупочная ценаб руб/кг"),
         max_digits=10, decimal_places=2, default=0,
@@ -193,13 +228,80 @@ class RawMaterialBatch(models.Model):
     )
     culture = models.CharField( # культура( Подсолнечник или Рапс)
         max_length=20,
-        choices=STATUS_CHOICES,
+        choices=CULTURE_CHOICES,
         default='Рапс',
     )
+    receipt_start_date = models.DateField( # Начало приемки сырья
+        _('Начало приемки сырья'),
+        null=True,
+        blank=True
+    ) #
+    receipt_end_date = models.DateField( # Окончание приемки сырья
+        _('Окончание приемки сырья'),
+        null = True,
+        blank = True
+    )
+
+    purchase_type = models.CharField( # вид закупки (выбор из списка)
+        max_length=30,
+        choices=PURCHASE_TYPE_CHOICES,
+        default='Прямая поставка',
+    )
+
+    target_factory = models.CharField( # Завод (выбор из списка)
+        max_length=30,
+        choices=FACTORY_CHOICES,
+        default='AMPZ',
+    )
+
+
+    partner_type = models.CharField(  # Партнер (выбор из списка)
+        max_length=30,
+        choices=PARTNER_TYPE_CHOICES,
+        default='Trader',
+    )
+    contract_type = models.CharField(  # Контракт (выбор из списка)
+        max_length=30,
+        choices=CONTRACT_TYPE_CHOICES,
+        default='FZV',
+    )
+
+    transport_type =  models.CharField(  # Транспорт (выбор из списка)
+        max_length=30,
+        choices=TRANSPORT_CHOICES,
+        default='Auto',
+    )
+
+    agreement_type = models.CharField(  # Соглашение (выбор из списка)
+        max_length=30,
+        choices=AGREEMENT_CHOICES,
+        default='Prepayment',
+    )
+    delay_days = models.IntegerField(
+        _('Отсрочка'),  #Отсрочка
+        validators=[MaxValueValidator(30, message='Значение не может быть больше 30 дней')],
+        default=0,
+
+    )
+
+
     def __str__(self):
         return f"Removal #{self.id}"
 
+"""Необходимо добавить поля в таблицу «Общая информация» :
 
+Вид закупки – из выпадающего списка (Прямая поставка, Поставка на элеватор, Перепись Ф-13)
+
+Целевой завод  - из выпадающего списка (АМПЗ, ДМЭЗ, ЭМЭЗ, ВХМЭЗ, БКМЭЗ, БЛМЭЗ, ОМЭЗ)
+
+Тип партнера - из выпадающего списка (Трейдер, СХТП, Агрохолдинг)
+
+Тип контракта -  из выпадающего списка (ФЗВ, ЗЧТ, ЗЧЦ)
+Тип ТС - из выпадающего списка (Авто, ЖД)
+
+Соглашение - из выпадающего списка (Предоплата, Постоплата)
+
+Отсрочка – число (не больше 30 дней)"""
 
 
 # Create your models here.
