@@ -4,15 +4,26 @@
 {% block content %}
 
 <style>
-  .section-title {
-    color: #0f5132;
-    font-weight: 600;
+  .hero-section {
+    background: linear-gradient(135deg, rgba(45, 134, 89, 0.1) 0%, rgba(232, 245, 233, 0.3) 100%);
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    margin-bottom: 3rem;
+    text-align: center;
   }
 
-  .table caption {
-    caption-side: top;
-    font-weight: 600;
-    color: #0f5132;
+  .section-title {
+    color: var(--primary-dark);
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: -1px;
+  }
+
+  .section-subtitle {
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+    font-weight: 400;
   }
 
   .card-action {
@@ -20,13 +31,29 @@
     justify-content: space-between;
     align-items: center;
     gap: 0.75rem;
+    padding: 1rem;
+    background: rgba(248, 249, 250, 0.8);
+  }
+
+  .stats-card {
+    background: white;
+    border-left: 4px solid var(--primary-color);
+  }
+
+  .icon-badge {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
   }
 </style>
 
-<section class="container mt-4">
-  <h1 class="text-center mb-4 section-title">
-    Финансовая модель для закупки масличных
+<div class="hero-section">
+  <h1 class="section-title">
+    💰 Финансовая модель для закупки масличных
   </h1>
+  <p class="section-subtitle">
+    Расчет стоимости партий подсолнечника и рапса с учетом качества и тарифов
+  </p>
+</div>
 
   <div class="row g-4">
     <div class="col-md-6">

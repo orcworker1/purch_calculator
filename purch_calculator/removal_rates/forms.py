@@ -183,7 +183,7 @@ class TariffsForm(forms.ModelForm):
             }),
             'natural_loss_pct': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'step': '1,00',
+                'step': '0.001',
                 'placeholder': 'Введите естественную убыль'
             }),
 
