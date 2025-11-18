@@ -1,11 +1,12 @@
 from django.contrib import admin
 from django.urls import path , include
-from purch_calculator.removal_rates.views import ViewRates, UpdateSunflower, UpdateRaps, UpdateDataByParty,ExportCSV
+from purch_calculator.removal_rates.views import ViewRates, UpdateSunflower, UpdateRaps, UpdateDataByParty,ExportCSV, UpdateTariffs
 
 urlpatterns = [
     path('',ViewRates.as_view(), name='index'),
     path('change_sunflower/',UpdateSunflower.as_view(),name='update_sunflower'),
     path('change_raps/',UpdateRaps.as_view(),name='update_raps'),
     path('change_data_by_party', UpdateDataByParty.as_view(), name='update_by_party'),
-    path('export_CSV',ExportCSV.as_view(),name='export_csv')
+    path('change_tariffs',UpdateTariffs.as_view(), name='update_tariffs' ),
+    path('export_CSV',ExportCSV.as_view(),name='export_csv'),
 ]

@@ -11,8 +11,8 @@ import pandas as pd
 from django.http import HttpResponse
 
 from purch_calculator.removal_rates.models import RemovalForSunflower
-from purch_calculator.removal_rates.models import RemovalForRapeseed , RawMaterialBatch
-from .forms import SunflowerForm , RapeseedForm , SunflowerBatchForm
+from purch_calculator.removal_rates.models import RemovalForRapeseed , RawMaterialBatch, Tariffs
+from .forms import SunflowerForm , RapeseedForm , SunflowerBatchForm , TariffsForm
 
 result = [1,2,3,4]
 
@@ -28,9 +28,11 @@ class ViewRates(ListView):
         sunflower, _ = RemovalForSunflower.objects.get_or_create(pk=1)
         rapeseed, _ = RemovalForRapeseed.objects.get_or_create(pk=1)
         batch, _ = RawMaterialBatch.objects.get_or_create(pk=1)
+        tariffs , _ = Tariffs.objects.get_or_create(pk=1)
         ctx["sunflower"] = sunflower
         ctx["raps"] = rapeseed
         ctx["batch"] = batch
+        ctx['tariffs'] = tariffs
         return ctx
 
 class UpdateSunflower(UpdateView):
@@ -63,6 +65,16 @@ class UpdateDataByParty(UpdateView):
 
     def get_object(self, queryset=None):
         obj, _ = RawMaterialBatch.objects.get_or_create(pk=1)
+        return obj
+
+class UpdateTariffs(UpdateView):
+    model = Tariffs
+    form_class = TariffsForm
+    success_url = reverse_lazy('index')
+    template_name = 'change_data/update_tariffs.html'
+
+    def get_object(self, queryset=None):
+        obj, _ = Tariffs.objects.get_or_create(pk=1)
         return obj
 
 

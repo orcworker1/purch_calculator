@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.utils.translation import gettext_lazy as _
 
-from purch_calculator.removal_rates.models import RemovalForRapeseed,RemovalForSunflower, RawMaterialBatch
+from purch_calculator.removal_rates.models import RemovalForRapeseed,RemovalForSunflower, RawMaterialBatch, Tariffs
 
 
 
@@ -139,5 +139,52 @@ class SunflowerBatchForm(forms.ModelForm):
 
             })
 
+
+        }
+
+class TariffsForm(forms.ModelForm):
+    class Meta:
+        model = Tariffs
+        fields = [
+            'distance', 'tariff', 'storage_days',
+            'acceptance_cost', 'storage_cost',
+            'shipping_cost', 'natural_loss_pct',
+        ]
+        widgets = {
+            'distance': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '1,00',
+                'placeholder': 'Введите растояние'
+            }),
+            'tariff' : forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '1,00',
+                'placeholder': 'Введите тариф'
+            }),
+            'storage_days' : forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '1,00',
+                'placeholder': 'Введите срок хранения'
+            }),
+            'acceptance_cost': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '1,00',
+                'placeholder': 'Введите cтоимость приемки'
+            }),
+            'storage_cost': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '1,00',
+                'placeholder': 'Введите cтоимость хранения'
+            }),
+            'shipping_cost' : forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '1,00',
+                'placeholder': 'Введите cтоимость отгрузки'
+            }),
+            'natural_loss_pct': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'step': '1,00',
+                'placeholder': 'Введите естественную убыль'
+            }),
 
         }

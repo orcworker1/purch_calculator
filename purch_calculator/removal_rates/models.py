@@ -1,3 +1,5 @@
+from symtable import Class
+
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.utils.translation import gettext_lazy as _
@@ -283,10 +285,57 @@ class RawMaterialBatch(models.Model):
         default=0,
 
     )
-
-
     def __str__(self):
         return f"Removal #{self.id}"
+
+
+class Tariffs(models.Model):
+    distance = models.DecimalField( #Расстояние, км
+        _("Расстояние, КМ "),
+        max_digits=10, decimal_places=2, default=0,
+        validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))])
+
+
+    tariff =  models.DecimalField( #Тариф
+        _("Тариф, р/тн/км"),
+        max_digits=10, decimal_places=2, default=0,
+        validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))])
+
+    storage_days = models.IntegerField( # Срок хранения
+        _('Срок хранения, дней'),
+        validators=[MinValueValidator(0, message='начение не может быть отрицательным')],
+        default=0,
+    )
+    acceptance_cost = models.DecimalField( # Стоимость приемки
+        _("Стоимость приемки, р/тн"),
+        max_digits=10, decimal_places=2, default=0,
+        validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))])
+
+    storage_cost = models.DecimalField( # Стоимость хранения
+        _("Стоимость хранения, р/тн/сут"),
+        max_digits=10, decimal_places=2, default=0,
+        validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))])
+
+    shipping_cost = models.DecimalField( # Стоимость отгрузки
+        _("Стоимость отгрузки, р/тн"),
+        max_digits=10, decimal_places=2, default=0,
+        validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))])
+
+    natural_loss_pct = models.DecimalField( # Естественная убыль
+        _("Естественная убыль, %"),
+        max_digits=10, decimal_places=4, default=0,
+        validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))])
+
+
+
+"""Расстояние, км  - число 2 знака после запятой, не может быть отрицательным
+   Тариф, р/тн/км – число 2 знака после запятой, не может быть отрицательным
+	Срок хранения, дней – целое число, не может быть отрицательным
+	Стоимость приемки, р/тн – число 2 знака после запятой, не может быть отрицательным
+	Стоимость хранения, р/тн/сут – число 2 знака после запятой, не может быть отрицательным
+	Стоимость отгрузки, р/тн – число 2 знака после запятой, не может быть отрицательным
+	Естественная убыль, % - десятичное число, 4 знака после запятой 
+"""
 
 """Необходимо добавить поля в таблицу «Общая информация» :
 

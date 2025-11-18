@@ -282,5 +282,65 @@
   </div>
 </section>
 {% endif %}
+{% if tariffs %}
+<section class="container mt-5 mb-5">
+  <div class="card shadow-sm border-secondary">
+    <div class="card-header bg-secondary bg-opacity-75 text-white text-center fw-semibold">
+      Тарифы ТРАМПА
+    </div>
+    <div class="card-body">
+      <div class="row g-4 justify-content-center">
+        <div class="col-lg-8">
+          <div class="card h-100 border-0">
+            <div class="card-body p-0">
+              <table class="table table-bordered mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th class="text-start">Показатель</th>
+                    <th class="text-center">Значение</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row" class="text-start">Расстояние, км</th>
+                    <td class="text-center">{{ tariffs.distance }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Срок хранения, дней</th>
+                    <td class="text-center">{{ tariffs.storage_days }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Стоимость приемки, р/тн</th>
+                    <td class="text-center">{{ tariffs.acceptance_cost }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Стоимость хранения, р/тн/сут</th>
+                    <td class="text-center">{{ tariffs.storage_cost }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Тариф, р/тн/км</th>
+                    <td class="text-center">{{ tariffs.tariff }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Стоимость отгрузки, р/тн</th>
+                    <td class="text-center">{{ tariffs.shipping_cost }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Естественная убыль, %</th>
+                    <td class="text-center">{{ tariffs.natural_loss_pct }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer bg-white text-center">
+      <a href="{% url 'update_tariffs' %}" class="btn btn-secondary px-4">Изменить тарифы</a>
+    </div>
+  </div>
+</section>
+{% endif %}
 
 {% endblock %}
