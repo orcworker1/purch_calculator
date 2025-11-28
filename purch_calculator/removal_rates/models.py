@@ -4,6 +4,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MaxValueValidator
+
 class RemovalForSunflower(models.Model):
     moisture_base = models.DecimalField(
         _("Влажность (базовое значение, %)"),
@@ -284,6 +285,12 @@ class RawMaterialBatch(models.Model):
         validators=[MaxValueValidator(30, message='Значение не может быть больше 30 дней')],
         default=0,
 
+    )
+
+    key_rate = models.DecimalField(
+        _("Ключевая ставка, %"),
+        max_digits=5, decimal_places=2, default=0,
+        validators=[MinValueValidator(0, message=_("Значение не может быть отрицательным."))]
     )
     def __str__(self):
         return f"Removal #{self.id}"

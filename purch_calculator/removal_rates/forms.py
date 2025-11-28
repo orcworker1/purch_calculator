@@ -51,7 +51,7 @@ class SunflowerBatchForm(forms.ModelForm):
             'oil_impurity_actual', 'oil_content_actual',
             'KCHM_actual', 'protein_actual','receipt_start_date',
             'receipt_end_date','purchase_type','target_factory','partner_type','contract_type','transport_type',
-            'agreement_type','delay_days',
+            'agreement_type','delay_days','key_rate'
         ]
         widgets = {
             'purchase_price': forms.NumberInput(attrs={
@@ -101,12 +101,14 @@ class SunflowerBatchForm(forms.ModelForm):
             'receipt_start_date':forms.DateInput(attrs={
                 'type': 'date',
                 'class': 'form-control',
-                'placeholder': 'Выбери Дату'
+                'placeholder': 'Выбери Дату',
+                'format': '%Y-%m-%d',
             }),
             'receipt_end_date': forms.DateInput(attrs={
                 'type': 'date',
                 'class': 'form-control',
-                'placeholder': 'Выбери Дату'
+                'placeholder': 'Выбери Дату',
+                'format': '%Y-%m-%d',
             }),
             'purchase_type': forms.Select(attrs={
                 'class': 'form-control',
@@ -137,8 +139,13 @@ class SunflowerBatchForm(forms.ModelForm):
                 'step': '1,00',
                 'placeholder': 'Колличество дней отсрочки'
 
-            })
+            }),
 
+            'key_rate':forms.NumberInput(attrs={
+                'class':'form-control',
+                'step': '1,00',
+                'placehplder':'Ключевая стака'
+            })
 
         }
 

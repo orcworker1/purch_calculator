@@ -13,6 +13,7 @@ from django.views import View
 import pandas as pd
 from django.http import HttpResponse
 from datetime import datetime
+from purch_calculator.removal_rates.calculate import PurchCalculator
 
 from purch_calculator.removal_rates.models import RemovalForSunflower
 from purch_calculator.removal_rates.models import RemovalForRapeseed , RawMaterialBatch, Tariffs
@@ -20,7 +21,7 @@ from .forms import SunflowerForm , RapeseedForm , SunflowerBatchForm , TariffsFo
 
 result = [1,2,3,4]
 
-
+ 
 class ViewRates(ListView):
     model = RemovalForSunflower
     template_name = 'index.html'
@@ -33,10 +34,12 @@ class ViewRates(ListView):
         rapeseed, _ = RemovalForRapeseed.objects.get_or_create(pk=1)
         batch, _ = RawMaterialBatch.objects.get_or_create(pk=1)
         tariffs , _ = Tariffs.objects.get_or_create(pk=1)
+        calculator = PurchCalculator(sunflower, rapeseed, batch, tariffs)
         ctx["sunflower"] = sunflower
         ctx["raps"] = rapeseed
         ctx["batch"] = batch
         ctx['tariffs'] = tariffs
+        ctx['calculate'] = calculator.financial_block()
         return ctx
 
 class UpdateSunflower(UpdateView):
@@ -84,42 +87,9 @@ class UpdateTariffs(UpdateView):
 
 class ExportCSV(View):
     def get(self, request, *args, **kwargs):
-        csv_parts = []
-        
-        removal_sunflower = RemovalForSunflower.objects.all().values()
-        if removal_sunflower.exists():
-            df_sunflower = pd.DataFrame(list(removal_sunflower))
-            column_mapping = {}
-            for field in RemovalForSunflower._meta.fields:
-                if hasattr(field, 'verbose_name'):
-                    verbose_name = str(field.verbose_name) if field.verbose_name else None
-                    if verbose_name and verbose_name != field.name:
-                        column_mapping[field.name] = verbose_name
-                if field.name == 'id' and 'id' not in column_mapping:
-                    column_mapping[field.name] = 'ID'
-            if column_mapping:
-                df_sunflower.rename(columns=column_mapping, inplace=True)
-            csv_parts.append("КОЭФФИЦИЕНТЫ ДЛЯ ПОДСОЛНЕЧНИКА")
-            csv_parts.append(df_sunflower.to_csv(index=False, encoding="utf-8-sig"))
-        
-        removal_rapeseed = RemovalForRapeseed.objects.all().values()
-        if removal_rapeseed.exists():
-            df_rapeseed = pd.DataFrame(list(removal_rapeseed))
-            column_mapping = {}
-            for field in RemovalForRapeseed._meta.fields:
-                if hasattr(field, 'verbose_name'):
-                    verbose_name = str(field.verbose_name) if field.verbose_name else None
-                    if verbose_name and verbose_name != field.name:
-                        column_mapping[field.name] = verbose_name
-                if field.name == 'id' and 'id' not in column_mapping:
-                    column_mapping[field.name] = 'ID'
-            if column_mapping:
-                df_rapeseed.rename(columns=column_mapping, inplace=True)
-            csv_parts.append("КОЭФФИЦИЕНТЫ ДЛЯ РАПСА")
-            csv_parts.append(df_rapeseed.to_csv(index=False, encoding="utf-8-sig"))
-        
-    
         raw_material_batch = RawMaterialBatch.objects.all().values()
+        df_batches = pd.DataFrame()
+        
         if raw_material_batch.exists():
             df_batches = pd.DataFrame(list(raw_material_batch))
             column_mapping = {}
@@ -187,12 +157,10 @@ class ExportCSV(View):
                     df_batches['Соглашение'] = df_batches['Соглашение'].map(agreement_type_map).fillna(df_batches['Соглашение'])
                 elif 'agreement_type' in df_batches.columns:
                     df_batches['agreement_type'] = df_batches['agreement_type'].map(agreement_type_map).fillna(df_batches['agreement_type'])
-            
-            csv_parts.append("ВХОДНЫЕ ДАННЫЕ ПО ТЕКУЩЕЙ ПАРТИИ")
-            csv_parts.append(df_batches.to_csv(index=False, encoding="utf-8-sig"))
-        
-       
+
         tariffs = Tariffs.objects.all().values()
+        df_tariffs = pd.DataFrame()
+        
         if tariffs.exists():
             df_tariffs = pd.DataFrame(list(tariffs))
             column_mapping = {}
@@ -202,16 +170,51 @@ class ExportCSV(View):
                     if verbose_name and verbose_name != field.name:
                         column_mapping[field.name] = verbose_name
                 if field.name == 'id' and 'id' not in column_mapping:
-                    column_mapping[field.name] = 'ID'
+                    column_mapping[field.name] = 'ID_Тарифы'
             if column_mapping:
                 df_tariffs.rename(columns=column_mapping, inplace=True)
-            csv_parts.append("ТАРИФЫ")
-            csv_parts.append(df_tariffs.to_csv(index=False, encoding="utf-8-sig"))
         
+
+
+        data_type_mapping = {}
         
-        csv_content = "\n".join(csv_parts)
+        if not df_batches.empty and not df_tariffs.empty:
+
+            for col in df_batches.columns:
+                data_type_mapping[col] = "Входные данные"
+
+            for col in df_tariffs.columns:
+                data_type_mapping[col] = "Тарифы"
+            
+            df_batches['key'] = 1
+            df_tariffs['key'] = 1
+            df_flat = pd.merge(df_batches, df_tariffs, on='key', how='outer').drop('key', axis=1)
+        elif not df_batches.empty:
+            for col in df_batches.columns:
+                data_type_mapping[col] = "Входные данные"
+            df_flat = df_batches
+        elif not df_tariffs.empty:
+            for col in df_tariffs.columns:
+                data_type_mapping[col] = "Тарифы"
+            df_flat = df_tariffs
+        else:
+            df_flat = pd.DataFrame()
         
-  
+
+        if not df_flat.empty:
+            df_flat = df_flat.T
+
+            field_names = df_flat.index
+
+            data_type_series = pd.Series(field_names.map(data_type_mapping).fillna(''), index=field_names, name='Тип данных')
+
+            df_flat = df_flat.reset_index()
+            df_flat.rename(columns={'index': 'Показатель'}, inplace=True)
+            df_flat.insert(0, 'Тип данных', data_type_series.values)
+        
+
+        csv_content = df_flat.to_csv(index=False, encoding="utf-8-sig") if not df_flat.empty else ""
+        
         response = HttpResponse(csv_content.encode('utf-8-sig'), content_type='text/csv; charset=utf-8-sig')
         
         date_str = datetime.now().strftime('%Y%m%d_%H%M%S')

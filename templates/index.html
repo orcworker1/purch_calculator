@@ -44,6 +44,11 @@
     font-size: 1.5rem;
     margin-right: 0.5rem;
   }
+
+  .orange-town {
+     background-color: #fd7e147e
+
+  }
 </style>
 
 <div class="hero-section">
@@ -220,6 +225,10 @@
                     <th scope="row" class="text-start">Отсрочка, дней</th>
                     <td class="text-center">{{ batch.delay_days }}</td>
                   </tr>
+                <tr>
+                    <th scope="row" class="text-start"> Ключевая ставка ЦБ</th>
+                    <td class="text-center">{{ batch.key_rate }}</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -369,5 +378,129 @@
   </div>
 </section>
 {% endif %}
+
+<section class="container mt-5 mb-5">
+  <div class="card shadow-sm border-secondary">
+    <div class="card-header bg-warning bg-opacity-75 text-black text-center fw-semibold">
+      Расчеты
+    </div>
+    <div class="card-body">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card h-100 border-0">
+            <div class="card-header bg-success bg-opacity-75 text-black fw-semibold text-center">
+              Финансовый блок
+            </div>
+            <div class="card-body p-0">
+              <table class="table table-bordered mb-0">
+                <tbody>
+                  <tr>
+                    <th scope="row" class="text-start">Плановая дата оплаты</th>
+                    <td class="text-center">{{ calculate.plane }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Стоимость денег</th>
+                    <td class="text-center">{{ calculate.value_of_money }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Цена закупки, руб/кг бНДС</th>
+                    <td class="text-center">{{ calculate.purchase_price }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Цена закупки руб/кг сНДС</th>
+                    <td class="text-center">{{ calculate.purchase_price_NDS }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Стоимость контракта, руб</th>
+                    <td class="text-center">123</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Стоимость хранения/приемки, руб</th>
+                    <td class="text-center">123</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card h-100 border-0">
+            <div class="card-header bg-light fw-semibold text-center">
+              Затраты на логистику
+            </div>
+            <div class="card-body p-0">
+              <table class="table table-bordered mb-0">
+                <tbody>
+                  <tr>
+                    <th scope="row" class="text-start">Стоимость доставки</th>
+                    <td class="text-center">123</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Срок доставки</th>
+                    <td class="text-center">123</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Целевой завод</th>
+                    <td class="text-center">123</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Тип ТС</th>
+                    <td class="text-center">{{ batch.get_transport_type_display }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card h-100 border-0">
+            <div class="card-header orange-town fw-semibold text-center">
+              Карректировка на качество
+            </div>
+            <div class="card-body p-0">
+              <table class="table table-bordered mb-0">
+                <tbody>
+                  <tr>
+                    <th scope="row" class="text-start">Масличность, %</th>
+                    <td class="text-center">{{ batch.oil_content_actual }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Сорность, %</th>
+                    <td class="text-center">{{ batch.weed_impurity_actual }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Протеин, %</th>
+                    <td class="text-center">{{ batch.protein_actual }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Масличная примесь, %</th>
+                    <td class="text-center">{{ batch.oil_impurity_actual }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">КЧМ, %</th>
+                    <td class="text-center">123</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="text-start">Влажность, %</th>
+                    <td class="text-center">123</td>
+                  </tr>
+                <tr>
+                    <th scope="row" class="text-start">Итого, %</th>
+                    <td class="text-center">123</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer bg-white text-center">
+      <a href="#" class="btn btn-success px-4">PASS</a>
+    </div>
+  </div>
+</section>
 
 {% endblock %}

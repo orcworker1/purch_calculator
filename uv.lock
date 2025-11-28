@@ -61,6 +61,18 @@ wheels = [
 ]
 
 [[package]]
+name = "holidays"
+version = "0.85"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "python-dateutil" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/bc/40/5b625396d2c8d4f25bdb2d13b77dc216f8f8fd3d46a915d246f4b044f197/holidays-0.85.tar.gz", hash = "sha256:4291155456c6abde885487a05bd16f523d4ef4136819a55833ff86f60ca3cc3b", size = 799071, upload-time = "2025-11-17T22:38:23.779Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/96/6d/6a63fe3964425c65e8a8c4a2999daa90171a2dab30775a1cbda92394345b/holidays-0.85-py3-none-any.whl", hash = "sha256:46445107ee3251c7e2daa23773a86921fa2e29d09f850038e7bfa2c75a434ad8", size = 1312064, upload-time = "2025-11-17T22:38:22.19Z" },
+]
+
+[[package]]
 name = "numpy"
 version = "2.3.4"
 source = { registry = "https://pypi.org/simple" }
@@ -188,6 +200,7 @@ dependencies = [
     { name = "django-bootstrap5" },
     { name = "dotenv" },
     { name = "gunicorn" },
+    { name = "holidays" },
     { name = "pandas" },
 ]
 
@@ -197,6 +210,7 @@ requires-dist = [
     { name = "django-bootstrap5", specifier = ">=25.2" },
     { name = "dotenv", specifier = ">=0.9.9" },
     { name = "gunicorn", specifier = ">=21.2.0" },
+    { name = "holidays", specifier = ">=0.85" },
     { name = "pandas", specifier = ">=2.3.3" },
 ]
 
